@@ -1,6 +1,6 @@
 const router = require('express').Router(), bcrypt = require('bcryptjs');
-const User = require('../models/User'), { sign, requireAuth } = require('../utils/auth');
-const pub = u => ({ id: u._id, name: u.name, email: u.email, phone: u.phone, isAdmin: u.isAdmin, contacts: u.contacts });
+const User = require('../models/User'), { sign, requireAuth, isAdmin } = require('../utils/auth');
+const pub = u => ({ id: u._id, name: u.name, email: u.email, phone: u.phone, isAdmin: isAdmin(u), contacts: u.contacts });
 
 router.post('/register', async (req, res) => {
   const { name, email, phone, password } = req.body;

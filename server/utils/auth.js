@@ -9,5 +9,7 @@ exports.requireAuth = async (req, res, next) => {
     next();
   } catch { res.status(401).json({ error: 'Please sign in' }); }
 };
+const isAdmin = u => !!u.isAdmin || (!!process.env.ADMIN_EMAIL && u.email === process.env.ADMIN_EMAIL.trim().toLowerCase());
+exports.isAdmin = isAdmin;
 exports.requireAdmin = (req, res, next) =>
-  req.user.isAdmin ? next() : res.status(403).json({ error: 'Admins only' });
+  isAdmin(req.user) ? next() : res.status(403).json({ error: 'Admins only' });
